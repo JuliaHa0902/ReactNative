@@ -1,20 +1,29 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React, {useState, useEffect} from 'react';
+import Home from './screens/Home';
+import Navigator from './routes/HomeStack'
+import { database } from './utilities/DatabaseHelper';
+import { TasksContextProvider } from './context/TaskContext';
+
 
 export default function App() {
+
+  useEffect(() => {
+    async function loadDataAsync() {
+      try {
+        await database.createTable()
+        // await database.insertTask ("Hello", "Please show", ()=>{})
+      } catch (e) {
+        console.warn(e);
+      }
+    }
+
+    loadDataAsync();
+  }, []);
+
   return (
-    <View style={styles.container}>
-      <Text>Hello World!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <TasksContextProvider>
+      <Navigator />
+    </TasksContextProvider>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
