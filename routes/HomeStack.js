@@ -1,7 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import Home from "../screens/Home";
-import AddTask from "../screens/AddTask";
+import CompletedTask from "../screens/CompletedTask";
 
 const Stack = createStackNavigator()
 
@@ -10,7 +10,7 @@ export default function Navigator() {
     <NavigationContainer>
       <Stack.Navigator initialRouteName='Home'>
         <Stack.Screen name='Home' component={Home} />
-        <Stack.Screen name='AddTask' component={AddTask} />
+        <Stack.Screen name='CompletedTask' component={CompletedTask} />
       </Stack.Navigator>
     </NavigationContainer>
   );

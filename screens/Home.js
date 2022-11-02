@@ -15,10 +15,8 @@ export default function Home({navigation}) {
         <TaskList/>
        
         {/* <Button
-        title="Add Task "
-        onPress={() => navigation.navigate('AddTask', {
-            value: task,
-        })} /> */}
+        title="Completed Task "
+        onPress={() => navigation.navigate('CompletedTask', {})} /> */}
       </View>
     );
 }
