@@ -1,58 +1,15 @@
 import React, {Component, useContext} from "react";
-import { Alert, Button, FlatList, StyleSheet, Text, View } from "react-native";
+import { FlatList, StyleSheet, View, TouchableOpacity } from "react-native";
 import taskData from "../data/data";
 import AddModal from "./AddModal";
 import EditModal from "./EditModal";
+import { AntDesign } from '@expo/vector-icons'; 
+import { Dimensions } from "react-native";
+import  TaskItem  from './TaskItem'
 
-class TaskItem extends Component {
-    constructor (props) {
-        super(props);
-        this.state = {
-            choosenRow: null,
-            numberOfRefresh: 0
-        };
-    }
+var width = Dimensions.get('window').width; //full width
+var height = Dimensions.get('window').height; //full height
 
-    refreshList = () => {
-        this.setState((prevState) => {
-            return {
-              numberOfRefresh: prevState.numberOfRefresh + 1
-            };
-        });
-    }
-
-    render() {
-        return (
-            <View style = {styles.taskItem}>
-                <Text>{this.props.item.title}</Text>
-                <Text>{this.props.item.description}</Text>
-                <Button 
-                    title="Delete" 
-                    onPress={()=>{
-                        Alert.alert(
-                            'Alert',
-                            'Are you sure you want to delete this task?',
-                            [
-                                {text: "No", onPress: () => console.log("Cancel"), style: 'cancel'},
-                                {text: "Yes", onPress: () => {
-                                    taskData.splice(this.props.index, 1);
-                                    this.props.parentFlatList.refreshList(this.props.index);
-                                }}
-                            ],
-                            {cancelable: true}
-                        );
-                    }}
-                />
-                <Button 
-                    title="Edit" 
-                    onPress={()=>{
-                        this.props.parentFlatList.editModalRef.showEditModal (this.props.index, taskData[this.props.index], this);
-                    }}
-                />
-            </View>
-        );
-    }
-}
 
 export default class TaskList extends Component {
     
@@ -80,9 +37,12 @@ export default class TaskList extends Component {
     render() {
         return (
             <View style = {styles.taskListView}>
-                <Button
-                title="Add Task "
-                onPress={this._onPressAdd} />
+              
+               <TouchableOpacity  style={styles.flatButton} onPress={this._onPressAdd}>
+           
+                 <AntDesign name="plus" size={24} color="white" />
+  
+                </TouchableOpacity>
                 <FlatList
                     data={taskData}
                     renderItem={({item, index})=>{
@@ -103,10 +63,28 @@ const styles = StyleSheet.create({
     taskListView: {
         flex: 1,
         marginTop: 22,
+        height: height,
+        width: width,
+ 
+ 
     },
-    taskItem: {
-        flex: 1,
-        backgroundColor: "#f1f1f1",
-        marginBottom: 10,
-    }
+
+    flatButton: {
+       width: 60,
+       height: 60,
+       backgroundColor: '#4B4B4B',
+       borderRadius: 100,
+       bottom: 0,
+       right: 0,
+       marginRight: 35,
+       position:'absolute',
+       display: 'flex',
+       marginBottom: 30,
+       alignItems: 'center',
+       justifyContent:'center',
+       padding: 1,
+       zIndex: 1 // this makes it clickable (it is not clickable due to absolute position)
+     
+    } 
+    
 })
