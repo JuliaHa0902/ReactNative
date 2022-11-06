@@ -1,12 +1,11 @@
 import React, {Component, useContext} from "react";
-import { FlatList, StyleSheet, View, TouchableOpacity } from "react-native";
+import { FlatList, StyleSheet, View, TouchableOpacity, Text } from "react-native";
 import taskData from "../data/data";
-import AddModal from "./AddModal";
 import EditModal from "./EditModal";
 import { AntDesign } from '@expo/vector-icons'; 
 import { Dimensions } from "react-native";
 import  TaskItem  from './TaskItem'
-
+import {AddEditModal} from "./AddEditModal";
 var width = Dimensions.get('window').width; //full width
 var height = Dimensions.get('window').height; //full height
 
@@ -50,11 +49,13 @@ export default class TaskList extends Component {
                         return (
                             <TaskItem item={item} index={index} parentFlatList={this}/>
                         );
+                        <AddEditModal ref = {ref => (this.addModalRef = ref)} parentList = {this}/>
                     }}
                 />
-                <AddModal ref = {ref => (this.addModalRef = ref)} parentList = {this}/>
+                <AddEditModal ref = {ref => (this.addModalRef = ref)} parentList = {this}/>
                 <EditModal ref = {ref => (this.editModalRef = ref)} parentList = {this}/>
             </View>
+            
         );
     }
 }
@@ -65,6 +66,7 @@ const styles = StyleSheet.create({
         marginTop: 22,
         height: height,
         width: width,
+      
  
  
     },
