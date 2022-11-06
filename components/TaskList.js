@@ -45,16 +45,16 @@ export default class TaskList extends Component {
                 <FlatList
                     data={taskData}
                     renderItem={({item, index})=>{
-                        // console.log(JSON.stringify(item));
+                          console.log(JSON.stringify(item));
                         return (
                             <TaskItem item={item} index={index} parentFlatList={this}/>
                         );
-                        <AddEditModal ref = {ref => (this.addModalRef = ref)} parentList = {this}/>
+                 
                     }}
                 />
                 <AddEditModal ref = {ref => (this.addModalRef = ref)} parentList = {this}/>
                 <EditModal ref = {ref => (this.editModalRef = ref)} parentList = {this}/>
-            </View>
+             </View>
             
         );
     }
