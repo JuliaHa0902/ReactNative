@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import Home from './screens/Home';
-import Navigator from './routes/HomeStack'
+import Navigator from './routes/Drawer'
 import { database } from './utilities/DatabaseHelper';
 import { TasksContextProvider } from './context/TaskContext';
 
