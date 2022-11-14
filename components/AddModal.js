@@ -1,18 +1,22 @@
-import React, {Component, useState} from 'react';
-import {FlatList, StyleSheet, Text, View, TextInput, Dimensions, Platform, Button} from 'react-native';
+import React, { Component, useState } from 'react';
+import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
 import { Modal } from 'react-native';
 import taskData from '../data/data';
-
-var screen = Dimensions.get('window');
-export default class AddModal extends Component {
+import { CustomButton } from './CustomButton';
+ 
+export  class AddModal extends Component {
     constructor(props) {
-        super (props);
+        super(props);
         this.state = {
             newTitle: "",
             newDescription: "",
             isOpen: false,
         };
+
+        this.save = this.save.bind(this);
+        this.cancel = this.cancel.bind(this);
     }
+
     
 
     showAddModal = (taskData) => {
@@ -22,63 +26,152 @@ export default class AddModal extends Component {
             // taskData: taskData,
         });
     }
+
+    save() {
+        if (this.state.newTitle.length == 0) {
+            alert("You must enter a task name");
+            return;
+        }
+        const newTask = {
+            title: this.state.newTitle,
+            description: this.state.newDescription,
+            isDone: "false"
+        };
+        taskData.push(newTask);
+        this.setState({ isOpen: false });
+    }
+
+
+    cancel() {
+        this.setState({ isOpen: false });
+
+    }
+
+
+
     render() {
         return (
-            <Modal 
-                ref = {"myModal"} 
-                style = {styles.modal} 
-                visible = {this.state.isOpen}
-                position = 'center' 
-                backdrop = {true} 
-                onClosed = {()=>{
-                    alert ("Modal closed");
-                }}
-            >
-                <Text>Add New Task</Text>
-                <TextInput 
-                    style = {styles.textInput} 
-                    placeholder = "Enter task"
-                    onChangeText={(text)=>this.setState({newTitle: text})}
-                    value={this.state.newTitle}
-                />
-                 <TextInput 
-                    style = {styles.textInput} 
-                    placeholder = "Enter description"
-                    onChangeText={(text)=>this.setState({newDescription: text})}
-                    value={this.state.newDescription}
-                />
-                <Button  
-                    title="Save" 
-                    onPress={()=>{
-                        if (this.state.newTitle.length == 0) {
-                            alert ("You must enter a task name");
-                            return;
-                        }
-                        const newTask = {
-                            title: this.state.newTitle,
-                            description: this.state.newDescription,
-                            isDone: "false"
-                        };
-                        taskData.push(newTask);
-                        this.setState({isOpen: false});
-                    }} />
-    
+            <Modal
+                ref={"myModal"}
+                animationType="slide"
+                transparent={true}
+                visible={this.state.isOpen}
+
+                onRequestClose={() => {
+                    Alert.alert('Modal has been closed.');
+
+                }}>
+                <View style={styles.centerModal}>
+                    <View style={styles.modalContent}>
+                        <View>
+                            <Text>Add Task</Text>
+                            <Text style={styles.label}>Title</Text>
+                            <TextInput
+                                style={styles.textInput}
+                                placeholder="Enter task"
+                                onChangeText={(text) => this.setState({ newTitle: text })}
+                                value={this.state.newTitle}
+                                autoFocus={true}
+                        
+                                
+                            />
+                        </View>
+
+                        <View>
+                            <Text style={styles.label}>Description</Text>
+                            <TextInput
+                                style={[styles.textInput, styles.textInput_description]}
+                                placeholder="Enter description"
+                                onChangeText={(text) => this.setState({ newDescription: text })}
+                                value={this.state.newDescription}
+                                multiline={true}
+                              
+                            />
+                        </View>
+                        <View style={styles.bottonContainer}>
+
+                        <CustomButton color="#000" name="Cancel"  onPress={this.cancel} 
+                            style={styles.cancelBtn}
+                            />
+
+                            <CustomButton name="Save" color="#FFF"  onPress={this.save} 
+                            style={styles.saveBtn} />
+ 
+                        </View>
+
+                    </View>
+                </View>
             </Modal>
-        ); 
+
+        );
     }
 }
 
 const styles = StyleSheet.create({
-    modal: {
+
+
+    modalContent: {
+
+        width: 340,
+        height: 380,
+        backgroundColor: '#D9D9D9',
+        paddingLeft: 40,
+        borderRadius: 20,
+        justifyContent: 'space-evenly'
+    },
+
+    centerModal: {
+        flex: 1,
         justifyContent: 'center',
-        borderRadius: 30,
-        shadowRadius: 10,
-        width: screen.width - 80,
-        height: 180,
+        alignItems: 'center',
+
+
 
     },
-    textInput:{
 
-    }
+    bottonContainer: {
+
+        flexDirection: 'row',
+       
+        alignItems: 'center',
+ 
+       
+
+    },
+
+    label: {
+        fontSize: 20,
+        fontWeight: 'normal',
+    },
+
+    textInput: {
+        borderWidth: 2,
+        width: '80%',
+        borderRadius: 4,
+        padding: 8,
+        marginTop: 8,
+        
+
+    },
+
+    textInput_description: {
+        height: 100,
+        textAlignVertical: 'top',
+      
+    },
+
+    saveBtn: {
+       marginLeft: 20,
+    
+    },
+
+    cancelBtn: {
+        backgroundColor: '#FFF',
+        borderWidth: 1,
+        borderColor: '#4B4B4B'
+
+        
+      
+    },
 
 })
