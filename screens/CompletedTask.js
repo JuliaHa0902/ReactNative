@@ -2,6 +2,7 @@ import React from "react";
 import {useReducer} from 'react';
 import { LogBox } from 'react-native';
 import { Button, StyleSheet, Text, View, TextInput } from 'react-native';
+import Home from "./Home";
 
 export default function CompletedTask({navigation}) {  
   
@@ -9,9 +10,9 @@ export default function CompletedTask({navigation}) {
       <View style={styles.container}>
         <Text>Completed Task screen!</Text>
        
-        <Button
+        {/* <Button
         title="Home"
-        onPress={() => navigation.navigate('Home', {})} />
+        onPress={() => navigation.navigate(Home)} /> */}
       </View>
     );
 }
