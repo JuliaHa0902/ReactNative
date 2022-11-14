@@ -11,12 +11,7 @@ export default function Home({navigation}) {
   
     return (
       <View style={styles.container}>
-        <Text>This is Home!</Text>
         <TaskList/>
-       
-        {/* <Button
-        title="Completed Task "
-        onPress={() => navigation.navigate('CompletedTask', {})} /> */}
       </View>
     );
 }

@@ -26,7 +26,7 @@ export default function MyDrawer(){
         <NavigationContainer>
         <Drawer.Navigator headertitle="Menu" useLegacyImplementation={true} drawerContent={(props) => <CustomDrawerContent {...props}/>} initialRouteName="Home" >
             <Drawer.Screen name='Today task' component={Home}/>
-            <Drawer.Screen name='completed task' component={CompletedTask}/>
+            <Drawer.Screen name='Completed task' component={CompletedTask}/>
         </Drawer.Navigator>
         </NavigationContainer>
     );

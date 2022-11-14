@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import { Alert, Button, Text, StyleSheet, View } from "react-native";
+import { Alert, Button, Text, StyleSheet, View, TouchableOpacity } from "react-native";
 import Checkbox from 'expo-checkbox';
 import taskData from "../data/data";
 import {CustomButton} from '../components/CustomButton' 
@@ -11,7 +11,8 @@ export default class TaskItem extends Component {
         this.state = {
             choosenRow: null,
             numberOfRefresh: 0,
-            isCompleted: false
+            isCompleted: false,
+            isOpened: false,
         };
         this.delete.bind(this.delete);
         this.setToggleCheckBox.bind(this.setToggleCheckBox);
@@ -62,29 +63,37 @@ export default class TaskItem extends Component {
     render() {
         return (
             <View style={styles.taskItem}>
+                
                 <Checkbox style={styles.checkbox}
                    value = {this.state.isCompleted}
                     onValueChange={(newValue) => this.setToggleCheckBox(newValue)} />
-                <View style={styles.textCenter}>
 
-                    <Text>{this.props.item.title}</Text>
-                    <Text numberOfLines={3}>{this.props.item.description}</Text>
-
-                </View>
-
-
-                <View style={styles.bottonContainer}>
-
-                    <CustomButton color="#000" name="Delete" onPress={() => this.delete(this.props)}
-                        style={styles.deleteBtn}
-                    />
+                <TouchableOpacity onPress={() => {
+                    this.setState({
+                          isOpened: !this.state.isOpened
+                    })
+                }}>
+                    <View style={styles.textCenter}>
+                        <Text>{this.props.item.title}</Text>
+                    </View>
+                </TouchableOpacity>
 
 
-                    <CustomButton color="#FFF" name="Edit" onPress={() => this.edit(this.props)}
-                        style={styles.editBtn}
-                    />
-        
-                </View>
+                {this.state.isOpened && (
+                    <View>
+                        <View style={styles.textCenter}>
+                            <Text numberOfLines={3}>{this.props.item.description}</Text>
+                        </View>
+                        <View style={styles.bottonContainer}>
+                            <CustomButton color="#000" name="Delete" onPress={() => this.delete(this.props)}
+                                style={styles.deleteBtn}
+                            />
+                            <CustomButton color="#FFF" name="Edit" onPress={() => this.edit(this.props)}
+                                style={styles.editBtn}
+                            />
+                        </View>
+                    </View>
+                )}
             </View>
         );
     }
@@ -97,7 +106,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#f1f1f1",
         margin: 10,
         padding: 20,
-        height: 170,
+        // height: 170,
         borderRadius: 20
          
     
@@ -106,7 +115,7 @@ const styles = StyleSheet.create({
     bottonContainer: {
 
         flexDirection: 'row',
-        position: 'absolute',
+        // position: 'absolute',
         bottom: 0,
         left: 0,
         marginLeft: 60,
