@@ -5,7 +5,7 @@ import EditModal from "./EditModal";
 import { AntDesign } from '@expo/vector-icons'; 
 import { Dimensions } from "react-native";
 import  TaskItem  from './TaskItem'
-import {AddEditModal} from "./AddEditModal";
+import {AddModal} from "./AddModal";
 var width = Dimensions.get('window').width; //full width
 var height = Dimensions.get('window').height; //full height
 
@@ -52,7 +52,7 @@ export default class TaskList extends Component {
                  
                     }}
                 />
-                <AddEditModal ref = {ref => (this.addModalRef = ref)} parentList = {this}/>
+                <AddModal ref = {ref => (this.addModalRef = ref)} parentList = {this}/>
                 <EditModal ref = {ref => (this.editModalRef = ref)} parentList = {this}/>
              </View>
             
