@@ -10,9 +10,11 @@ export default class TaskItem extends Component {
         super(props);
         this.state = {
             choosenRow: null,
-            numberOfRefresh: 0
+            numberOfRefresh: 0,
+            isCompleted: false
         };
         this.delete.bind(this.delete);
+        this.setToggleCheckBox.bind(this.setToggleCheckBox);
     }
 
     refreshList = () => {
@@ -43,6 +45,16 @@ export default class TaskItem extends Component {
 
     }
 
+    setToggleCheckBox() {
+        this.setState({ isCompleted: !this.state.isCompleted });
+        if(this.state.isCompleted){
+            alert('Task added to completed state');
+        }
+        else{
+            alert('Task removed from completed state');
+        }
+    }
+
     edit(props){
         props.parentFlatList.editModalRef.showEditModal(this.props.index, taskData[this.props.index], this);
     }
@@ -51,9 +63,8 @@ export default class TaskItem extends Component {
         return (
             <View style={styles.taskItem}>
                 <Checkbox style={styles.checkbox}
-                   
-
-                    onValueChange={(newValue) => setToggleCheckBox(newValue)} />
+                   value = {this.state.isCompleted}
+                    onValueChange={(newValue) => this.setToggleCheckBox(newValue)} />
                 <View style={styles.textCenter}>
 
                     <Text>{this.props.item.title}</Text>
