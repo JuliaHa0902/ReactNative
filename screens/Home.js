@@ -11,7 +11,7 @@ export default function Home({navigation}) {
   
     return (
       <View style={styles.container}>
-        <TaskList/>
+        <TaskList completed={false}/>
       </View>
     );
 }

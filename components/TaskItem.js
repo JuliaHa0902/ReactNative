@@ -61,41 +61,43 @@ export default class TaskItem extends Component {
     }
 
     render() {
-        return (
-            <View style={styles.taskItem}>
-                
-                <Checkbox style={styles.checkbox}
-                   value = {this.state.isCompleted}
-                    onValueChange={(newValue) => this.setToggleCheckBox(newValue)} />
+        if (this.state.isCompleted == this.props.completed) {
+            return (
+                <View style={styles.taskItem}>
+                    
+                    <Checkbox style={styles.checkbox}
+                        value = {this.state.isCompleted}
+                        onValueChange={(newValue) => this.setToggleCheckBox(newValue)} />
 
-                <TouchableOpacity onPress={() => {
-                    this.setState({
-                          isOpened: !this.state.isOpened
-                    })
-                }}>
-                    <View style={styles.textCenter}>
-                        <Text>{this.props.item.title}</Text>
-                    </View>
-                </TouchableOpacity>
-
-
-                {this.state.isOpened && (
-                    <View>
+                    <TouchableOpacity onPress={() => {
+                        this.setState({
+                              isOpened: !this.state.isOpened
+                        })
+                    }}>
                         <View style={styles.textCenter}>
-                            <Text numberOfLines={3}>{this.props.item.description}</Text>
+                            <Text>{this.props.item.title}</Text>
                         </View>
-                        <View style={styles.bottonContainer}>
-                            <CustomButton color="#000" name="Delete" onPress={() => this.delete(this.props)}
-                                style={styles.deleteBtn}
-                            />
-                            <CustomButton color="#FFF" name="Edit" onPress={() => this.edit(this.props)}
-                                style={styles.editBtn}
-                            />
+                    </TouchableOpacity>
+
+
+                    {this.state.isOpened && (
+                        <View>
+                            <View style={styles.textCenter}>
+                                <Text numberOfLines={3}>{this.props.item.description}</Text>
+                            </View>
+                            <View style={styles.bottonContainer}>
+                                <CustomButton color="#000" name="Delete" onPress={() => this.delete(this.props)}
+                                    style={styles.deleteBtn}
+                                />
+                                <CustomButton color="#FFF" name="Edit" onPress={() => this.edit(this.props)}
+                                    style={styles.editBtn}
+                                />
+                            </View>
                         </View>
-                    </View>
-                )}
-            </View>
-        );
+                    )}
+                </View>
+            );
+        }
     }
 }
 
@@ -132,8 +134,7 @@ const styles = StyleSheet.create({
 
 
     checkbox: {
-     borderRadius: 10 
-        
+    borderRadius: 10,
     }
     ,
     deleteBtn: {

@@ -3,16 +3,14 @@ import {useReducer} from 'react';
 import { LogBox } from 'react-native';
 import { Button, StyleSheet, Text, View, TextInput } from 'react-native';
 import Home from "./Home";
+import TaskList from "../components/TaskList";
+import CompletedTaskList from "../components/CompletedTaskList";
 
 export default function CompletedTask({navigation}) {  
   
     return (
       <View style={styles.container}>
-        <Text>Completed Task screen!</Text>
-       
-        {/* <Button
-        title="Home"
-        onPress={() => navigation.navigate(Home)} /> */}
+        <CompletedTaskList />
       </View>
     );
 }

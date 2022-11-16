@@ -10,14 +10,12 @@ var width = Dimensions.get('window').width; //full width
 var height = Dimensions.get('window').height; //full height
 
 
-export default class TaskList extends Component {
-    
+export default class CompletedTaskList extends Component {
     constructor (props) {
         super(props);
         this.state = {
             deletedRow: null
         };
-        this._onPressAdd = this._onPressAdd.bind(this);
         // console.log (this.props.taskData);
     }
 
@@ -29,25 +27,15 @@ export default class TaskList extends Component {
         });
     }
 
-    _onPressAdd() {
-        this.addModalRef.showAddModal(this.props.taskData);
-    }
-
     render() {
         return (
             <View style = {styles.taskListView}>
-              
-               <TouchableOpacity  style={styles.flatButton} onPress={this._onPressAdd}>
-           
-                 <AntDesign name="plus" size={24} color="white" />
-  
-                </TouchableOpacity>
                 <FlatList
                     data={taskData}
                     renderItem={({item, index})=>{
                           console.log(JSON.stringify(item));
                         return (
-                            <TaskItem completed={this.props.completed} item={item} index={index} parentFlatList={this} />
+                            <TaskItem completed={true} item={item} index={index} parentFlatList={this} />
                         );
                  
                     }}
