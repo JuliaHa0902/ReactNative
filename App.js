@@ -6,7 +6,7 @@ import OpenDrawer from './components/drawer/open'
 import ClosedDrawer from './components/drawer/closed'
 
 // data load from file
-import TaskData from "./components/data/data";
+import { TaskData } from "./components/data/data";
 
 const animationSpeed = 500 // ms
 

@@ -4,6 +4,9 @@ import { StyleSheet, Text, View, TextInput, Modal } from 'react-native';
 // components
 import { CustomButton } from '../CustomButton';
 
+// data for the constant values that won't change
+import { AppData } from '../../data/data'
+
 class AddModal extends Component {
     constructor( props ) {
         super( props );
@@ -24,8 +27,11 @@ class AddModal extends Component {
     }
 
     save () {
-        if ( this.state.newTitle.length == 0 ) {
-            alert( "You must enter a task name" );
+        const { noTaskTitle } = AppData.modal.add.alert
+
+        // '===' strict type checking is a good thing
+        if ( this.state.newTitle.length === 0 ) {
+            alert( noTaskTitle );
             return;
         }
 
@@ -43,7 +49,76 @@ class AddModal extends Component {
 
     cancel () {
         this.setState( { isOpen: false } );
+    }
 
+    boxContent = () => {
+        // deconstruct AppData for the add modal
+        const {
+            title,
+            titlePlaceholder,
+            descTitle,
+            descPlaceholder,
+            button
+        } = AppData.modal.add
+
+        const { backgroundColor } = this.props
+
+        return (
+            <View style={ styles.centerModal }>
+                <View style={ { 
+                    ...styles.modalContent, 
+                    backgroundColor: backgroundColor 
+                } }>
+                    <View>
+                        <Text style={ styles.label }>{ title }</Text>
+                        <TextInput
+                            style={ styles.textInput }
+                            placeholder={ titlePlaceholder }
+                            onChangeText={
+                                ( text ) => this.setState( { newTitle: text } )
+                            }
+                            value={ this.state.newTitle }
+                            autoFocus={ true }
+                        />
+                    </View>
+
+                    <View>
+                        <Text style={ styles.label }>
+                            { descTitle }
+                        </Text>
+
+                        <TextInput
+                            style={ [
+                                styles.textInput,
+                                styles.textInput_description
+                            ] }
+                            placeholder={ descPlaceholder }
+                            onChangeText={
+                                text => this.setState( { newDescription: text } )
+                            }
+                            value={ this.state.newDescription }
+                            multiline={ true }
+                        />
+                    </View>
+
+                    <View style={ styles.bottonContainer }>
+                        <CustomButton
+                            color="#000"
+                            name={ button.cancel }
+                            onPress={ this.cancel }
+                            style={ styles.button }
+                        />
+
+                        <CustomButton
+                            name={ button.save }
+                            color="#FFF"
+                            onPress={ this.save }
+                            style={ styles.button }
+                        />
+                    </View>
+                </View>
+            </View>
+        )
     }
 
     render () {
@@ -54,58 +129,7 @@ class AddModal extends Component {
                 transparent={ true }
                 visible={ this.state.isOpen }
             >
-                <View style={ styles.centerModal }>
-                    <View style={ styles.modalContent }>
-                        <View>
-                            <Text>Add Task</Text>
-                            <Text style={ styles.label }>Title</Text>
-                            <TextInput
-                                style={ styles.textInput }
-                                placeholder="Enter task"
-                                onChangeText={
-                                    ( text ) => this.setState( { newTitle: text } )
-                                }
-                                value={ this.state.newTitle }
-                                autoFocus={ true }
-                            />
-                        </View>
-
-                        <View>
-                            <Text style={ styles.label }>
-                                Description
-                            </Text>
-
-                            <TextInput
-                                style={ [
-                                    styles.textInput,
-                                    styles.textInput_description
-                                ] }
-                                placeholder="Enter description"
-                                onChangeText={
-                                    text => this.setState( { newDescription: text } )
-                                }
-                                value={ this.state.newDescription }
-                                multiline={ true }
-                            />
-                        </View>
-
-                        <View style={ styles.bottonContainer }>
-                            <CustomButton
-                                color="#000"
-                                name="Cancel"
-                                onPress={ this.cancel }
-                                style={ styles.cancelBtn }
-                            />
-
-                            <CustomButton
-                                name="Save"
-                                color="#FFF"
-                                onPress={ this.save }
-                                style={ styles.saveBtn }
-                            />
-                        </View>
-                    </View>
-                </View>
+                { this.boxContent() }
             </Modal>
 
         );
@@ -116,11 +140,11 @@ export default AddModal
 
 const styles = StyleSheet.create( {
     modalContent: {
-        width: 340,
+        width: '80%',
         height: 380,
-        backgroundColor: '#D9D9D9',
-        paddingLeft: 40,
-        borderRadius: 20,
+        paddingHorizontal: 20,
+        borderRadius: 16,
+        elevation: 30,
         justifyContent: 'space-evenly'
     },
 
@@ -132,7 +156,7 @@ const styles = StyleSheet.create( {
 
     bottonContainer: {
         flexDirection: 'row',
-        alignItems: 'center',
+        justifyContent: 'space-between',
     },
 
     label: {
@@ -142,7 +166,7 @@ const styles = StyleSheet.create( {
 
     textInput: {
         borderWidth: 2,
-        width: '80%',
+        width: '100%',
         borderRadius: 4,
         padding: 8,
         marginTop: 8,
@@ -153,13 +177,7 @@ const styles = StyleSheet.create( {
         textAlignVertical: 'top',
     },
 
-    saveBtn: {
-        marginLeft: 20,
-    },
-
-    cancelBtn: {
-        backgroundColor: '#FFF',
-        borderWidth: 1,
-        borderColor: '#4B4B4B'
-    },
+    button: {
+        width: '45%'
+    }
 } )

@@ -7,20 +7,16 @@ import { CustomButton } from './CustomButton'
 
 class TaskItem extends Component {
     state = {
-        isCompleted: false,
         isOpened: false,
-        numberOfRefresh: 0
     };
 
-    toggleRadioButton () {
-        this.setState( { isCompleted: !this.state.isCompleted } );
+    toggleRadioButton ( newVal, title ) {
+        const { index, TaskData, setTaskData } = this.props
 
-        if ( !this.state.isCompleted ) {
-            alert( 'Task added to completed list' );
-        }
-        else {
-            alert( 'Task removed from completed list' );
-        }
+        const newTaskData = [ ...TaskData ]
+        newTaskData[ index ].isDone = newVal
+
+        setTaskData( newTaskData )
     }
 
     edit ( props ) {
@@ -67,6 +63,7 @@ class TaskItem extends Component {
     render () {
         // deconstruct
         const { title, description } = this.props.item
+        const { TaskData, index } = this.props
 
         return (
             <TouchableOpacity
@@ -86,7 +83,7 @@ class TaskItem extends Component {
                             ...styles.checkbox, 
                             borderColor: this.props.backgroundColor
                         } }
-                        value={ this.state.isCompleted }
+                        value={ TaskData[ index ].isDone } // change this to what the data says
                         onValueChange={
                             ( newValue ) => this.toggleRadioButton( newValue, title )
                         }
@@ -94,7 +91,11 @@ class TaskItem extends Component {
 
                     {/* task title */ }
                     <View style={ styles.textCenter }>
-                        <Text style={ { color: this.props.backgroundColor } }>
+                        <Text style={ { 
+                            color: this.props.backgroundColor,
+                            fontWeight: 'bold',
+                            fontSize: 16
+                        } }>
                             { title }
                         </Text>
                     </View>
@@ -106,7 +107,10 @@ class TaskItem extends Component {
                                 <View style={ styles.textCenter }>
                                     <Text
                                         numberOfLines={ 3 }
-                                        style={ { color: this.props.backgroundColor } }
+                                        style={ { 
+                                            color: this.props.backgroundColor,
+                                            fontSize: 12
+                                        } }
                                     >
                                         { description }
                                     </Text>
@@ -116,6 +120,7 @@ class TaskItem extends Component {
                                     <CustomButton
                                         color="#000"
                                         name="Delete"
+                                        opacity={ this.props.mode ? 0.5 : 0.7 }
                                         style={ styles.deleteBtn }
                                         onPress={ () => this.delete( this.props, title ) }
                                     />
@@ -123,6 +128,7 @@ class TaskItem extends Component {
                                     <CustomButton
                                         color="#FFF"
                                         name="Edit"
+                                        opacity={ this.props.mode ? 0.7: 0.5 }
                                         style={ styles.editBtn }
                                         onPress={ () => this.edit( this.props ) }
                                     />

@@ -6,6 +6,7 @@ const Content = props => {
         active,
         TaskData,
         show,
+        mode,
         setTaskData,
         setShow,
         foregroundColor,
@@ -14,7 +15,8 @@ const Content = props => {
 
     if ( active === 'TODO' ) {
         return (
-            <ToDoTaskScreen 
+            <ToDoTaskScreen
+                mode={ mode }
                 TaskData={ TaskData } 
                 setTaskData={ setTaskData } 
                 foregroundColor={ foregroundColor }
@@ -28,6 +30,7 @@ const Content = props => {
                 TaskData={ TaskData } 
                 setTaskData={ setTaskData }
                 show={ show }
+                mode={ mode }
                 setShow={ setShow }
                 foregroundColor={ foregroundColor }
                 backgroundColor={ backgroundColor }

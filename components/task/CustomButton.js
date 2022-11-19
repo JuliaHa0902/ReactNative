@@ -6,6 +6,7 @@ export function CustomButton ( props ) {
         <TouchableOpacity
             onPress={ props.onPress }
             style={ [ styles.button, { ...props.style } ] }
+            activeOpacity={ props.opacity }
         >
             <Text style={ [ { color: props.color }, styles.buttonText ] }>
                 { props.name }

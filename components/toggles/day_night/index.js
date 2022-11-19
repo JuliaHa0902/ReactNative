@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text } from 'react-native';
 import { Switch } from 'react-native-paper';
 
+// grab styles from separate file
 import Styles from './styles';
 
 const Toggle = ( props ) => {

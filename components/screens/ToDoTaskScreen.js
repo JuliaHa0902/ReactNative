@@ -33,6 +33,7 @@ const ToDoTaskScreen = props => {
                             TaskData={ props.TaskData }
                             setTaskData={ props.setTaskData }
                             item={ item }
+                            mode={ props.mode }
                             foregroundColor={ props.foregroundColor }
                             backgroundColor={ props.backgroundColor }
                             parentFlatList={ this }
@@ -65,12 +66,16 @@ const ToDoTaskScreen = props => {
                 parentList={ this }
                 TaskData={ props.TaskData }
                 setTaskData={ props.setTaskData }
+                backgroundColor={ props.backgroundColor }
+                foregroundColor={ props.foregroundColor }
             />
             <EditModal
                 ref={ editModalRef }
                 parentList={ this }
                 TaskData={ props.TaskData }
                 setTaskData={ props.setTaskData }
+                backgroundColor={ props.backgroundColor }
+                foregroundColor={ props.foregroundColor }
             />
         </View>
     )

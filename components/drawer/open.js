@@ -48,6 +48,7 @@ const OpenDrawer = props => {
                 active={ active }
                 TaskData={ TaskData }
                 show={ show }
+                mode={ mode }
                 setShow={ setShow }
                 setTaskData={ setTaskData }
                 foregroundColor={ foregroundColor }
