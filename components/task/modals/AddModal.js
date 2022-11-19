@@ -57,7 +57,9 @@ class AddModal extends Component {
                 <View style={ styles.centerModal }>
                     <View style={ styles.modalContent }>
                         <View>
-                            <Text>Add Task</Text>
+                            <View  style={ styles.header }>
+                                <Text  style={ styles.headerLabel }>Add Task</Text>
+                            </View>
                             <Text style={ styles.label }>Title</Text>
                             <TextInput
                                 style={ styles.textInput }
@@ -115,6 +117,17 @@ class AddModal extends Component {
 export default AddModal
 
 const styles = StyleSheet.create( {
+    header: {
+        alignItems: 'center',
+        marginRight: 60,
+        marginBottom: 10,
+    },
+
+    headerLabel:{
+        fontSize: 18,
+        fontWeight: 'semibold',
+    },
+
     modalContent: {
         width: 340,
         height: 380,

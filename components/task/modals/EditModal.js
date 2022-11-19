@@ -81,6 +81,9 @@ class EditModal extends Component {
                 <View style={ styles.centerModal }>
                     <View style={ styles.modalContent }>
                         <View>
+                            <View  style={styles.header}>
+                                <Text  style={styles.headerLabel}>Edit Task</Text>
+                            </View>
                             <Text>Title</Text>
 
                             <TextInput
@@ -133,6 +136,17 @@ class EditModal extends Component {
 export default EditModal
 
 const styles = StyleSheet.create( {
+    header: {
+        alignItems: 'center',
+        marginRight: 60,
+        marginBottom: 10,
+    },
+
+    headerLabel:{
+        fontSize: 18,
+        fontWeight: 'semibold',
+    },
+    
     modalContent: {
         width: 340,
         height: 380,
