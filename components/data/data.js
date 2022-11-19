@@ -1,8 +1,4 @@
-// import { database } from './utilities/DatabaseHelper';
-
-// const [taskData, setTaskData] = useState([]);
-// database.getTasks(setTaskData);
-var taskData = [
+const TaskData = [
     {
         "title": "This is a demo task",
         "description": "And a demo description",
@@ -14,4 +10,5 @@ var taskData = [
         "isDone": "true",
     }
 ];
-module.exports = taskData;
+
+export default TaskData;
