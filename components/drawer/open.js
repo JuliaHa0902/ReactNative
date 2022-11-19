@@ -1,11 +1,5 @@
 import React, { useRef } from 'react'
-import {
-    StyleSheet,
-    Animated,
-    StatusBar,
-    View,
-    TouchableOpacity
-} from "react-native"
+import { Animated, StatusBar, View, TouchableOpacity } from "react-native"
 import Ionicons from '@expo/vector-icons/Ionicons';
 
 // components
