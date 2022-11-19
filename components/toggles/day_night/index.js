@@ -2,9 +2,6 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import { Switch } from 'react-native-paper';
 
-// grab styles from separate file
-import Styles from './styles';
-
 const Toggle = ( props ) => {
     const switchToggle = () => {
         // night mode
@@ -23,7 +20,7 @@ const Toggle = ( props ) => {
     }
 
     return (
-        <View style={ Styles.flex }>
+        <>
             <Text style={ {
                 color: props.foregroundColor
             } }>{ props.mode ? 'Night Mode' : 'Day Mode' }</Text>
@@ -32,7 +29,7 @@ const Toggle = ( props ) => {
                 value={ props.mode }
                 onValueChange={ switchToggle }
             />
-        </View>
+        </>
     );
 }
 

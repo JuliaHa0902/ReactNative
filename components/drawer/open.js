@@ -12,6 +12,9 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import DrawerFlyout from './flyout'
 import Content from '../screens/content'
 
+// styles
+import { DrawerStyles } from './styles'
+
 const OpenDrawer = props => {
     const slideAnim = useRef( new Animated.Value( -200 ) ).current;
 
@@ -38,7 +41,7 @@ const OpenDrawer = props => {
     } ).start();
 
     return (
-        <View style={ { ...styles.background, backgroundColor: backgroundColor } }>
+        <View style={ { ...DrawerStyles.background, backgroundColor: backgroundColor } }>
             <StatusBar
                 backgroundColor={ foregroundColor }
                 barStyle={ mode ? 'dark-content' : 'light-content' }
@@ -55,19 +58,19 @@ const OpenDrawer = props => {
                 backgroundColor={ backgroundColor }
             />
 
-            <View style={ { ...styles.menu, color: foregroundColor } }>
+            <View style={ { ...DrawerStyles.menu, color: foregroundColor } }>
                 <Ionicons name="menu" size={ 36 } />
             </View>
 
             {/* overlay */ }
             <TouchableOpacity
-                style={ styles.overlay }
+                style={ DrawerStyles.overlay }
                 activeOpacity={ 0.5 }
                 onPress={ () => setShow( !show ) }
             />
 
             <Animated.View style={ {
-                ...styles.drawer, left: slideAnim,
+                ...DrawerStyles.drawer, left: slideAnim,
                 backgroundColor: backgroundColor
             } }>
                 <DrawerFlyout
@@ -87,38 +90,5 @@ const OpenDrawer = props => {
         </View >
     )
 }
-
-const styles = StyleSheet.create( {
-    background: {
-        flex: 1
-    },
-    menu: {
-        position: 'absolute',
-        alignSelf: 'flex-start',
-        zIndex: 10,
-        elevation: 10
-    },
-    drawer: {
-        position: 'absolute',
-        height: '100%',
-        shadowColor: '#000',
-        shadowOffset: { width: 4, height: 0 },
-        shadowOpacity: 1,
-        shadowRadius: 3,
-        elevation: 20,
-        zIndex: 20,
-        width: 200,
-    },
-    overlay: {
-        position: 'absolute',
-        height: '100%',
-        width: '100%',
-        backgroundColor: '#333',
-        opacity: 0.5,
-        right: 0,
-        zIndex: 19,
-        elevation: 19
-    }
-} )
 
 export default OpenDrawer

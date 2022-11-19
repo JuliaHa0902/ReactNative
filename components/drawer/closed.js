@@ -1,16 +1,13 @@
 import React, { useRef } from 'react'
-import {
-    StyleSheet,
-    Animated,
-    StatusBar,
-    View,
-    TouchableOpacity
-} from "react-native"
+import { Animated, StatusBar, View, TouchableOpacity } from "react-native"
 import Ionicons from '@expo/vector-icons/Ionicons';
 
 // components
 import DrawerFlyout from './flyout'
 import Content from '../screens/content'
+
+// styles
+import { DrawerStyles } from './styles'
 
 const ClosedDrawer = props => {
     const slideAnim = useRef( new Animated.Value( 0 ) ).current;
@@ -38,7 +35,7 @@ const ClosedDrawer = props => {
     } ).start()
 
     return (
-        <View style={ { ...styles.background, backgroundColor: backgroundColor } }>
+        <View style={ { ...DrawerStyles.background, backgroundColor: backgroundColor } }>
             <StatusBar
                 backgroundColor={ foregroundColor }
                 barStyle={ mode ? 'dark-content' : 'light-content' }
@@ -56,7 +53,7 @@ const ClosedDrawer = props => {
             />
 
             <TouchableOpacity
-                style={ styles.menu }
+                style={ DrawerStyles.menu }
                 activeOpacity={ 0.7 }
                 onPress={ () => setShow( !show ) }
             >
@@ -64,7 +61,7 @@ const ClosedDrawer = props => {
             </TouchableOpacity>
 
             <Animated.View style={ {
-                ...styles.drawer, left: slideAnim,
+                ...DrawerStyles.drawer, left: slideAnim,
                 backgroundColor: backgroundColor
             } }>
                 <DrawerFlyout
@@ -84,38 +81,5 @@ const ClosedDrawer = props => {
         </View >
     )
 }
-
-const styles = StyleSheet.create( {
-    background: {
-        flex: 1
-    },
-    menu: {
-        position: 'absolute',
-        alignSelf: 'flex-start',
-        zIndex: 10,
-        elevation: 10
-    },
-    drawer: {
-        position: 'absolute',
-        height: '100%',
-        shadowColor: '#000',
-        shadowOffset: { width: 4, height: 0 },
-        shadowOpacity: 1,
-        shadowRadius: 3,
-        elevation: 20,
-        zIndex: 20,
-        width: 200,
-    },
-    overlay: {
-        position: 'absolute',
-        height: '100%',
-        width: '100%',
-        backgroundColor: '#333',
-        opacity: 0.5,
-        right: 0,
-        zIndex: 19,
-        elevation: 19
-    }
-} )
 
 export default ClosedDrawer
