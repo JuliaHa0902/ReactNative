@@ -19,7 +19,6 @@ const CompletedTaskScreen = props => {
                 data={ props.TaskData }
                 style={ { width: '100%' } }
                 renderItem={ ( { item, index } ) => {
-                    console.log(item.isDone);
                     if (item.isDone == true) {
                         return (
                             <TaskItem

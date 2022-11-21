@@ -17,11 +17,9 @@ class TaskItem extends Component {
 
         if ( this.props.TaskData[ this.props.index ].isDone ) {
             alert( 'Task added to completed list' );
-            console.log(this.props.TaskData[ this.props.index ].isDone);
         }
         else {
             alert( 'Task removed from completed list' );
-            console.log(this.props.TaskData[ this.props.index ].isDone);
         }
         this.setState( { isCompleted: this.state.isCompleted } );
     }
