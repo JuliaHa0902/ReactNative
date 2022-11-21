@@ -10,7 +10,7 @@ class AddModal extends Component {
         this.state = {
             newTitle: "",
             newDescription: "",
-            isOpen: false,
+            isOpen: false
         };
 
         this.save = this.save.bind( this );
@@ -32,7 +32,7 @@ class AddModal extends Component {
         const newTask = {
             title: this.state.newTitle,
             description: this.state.newDescription,
-            isDone: "false"
+            isDone: false
         };
 
         const newData = [ ...this.props.TaskData, newTask ]

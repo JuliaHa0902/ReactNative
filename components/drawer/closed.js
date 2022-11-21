@@ -92,7 +92,8 @@ const styles = StyleSheet.create( {
         position: 'absolute',
         alignSelf: 'flex-start',
         zIndex: 10,
-        elevation: 10
+        elevation: 10,
+        paddingTop: 30
     },
     drawer: {
         position: 'absolute',

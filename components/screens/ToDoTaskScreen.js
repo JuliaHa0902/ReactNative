@@ -27,19 +27,23 @@ const ToDoTaskScreen = props => {
                 data={ props.TaskData }
                 style={ { width: '100%' } }
                 renderItem={ ( { item, index } ) => {
-                    return (
-                        <TaskItem
-                            index={ index }
-                            TaskData={ props.TaskData }
-                            setTaskData={ props.setTaskData }
-                            item={ item }
-                            foregroundColor={ props.foregroundColor }
-                            backgroundColor={ props.backgroundColor }
-                            parentFlatList={ this }
-                            addModalRef={ addModalRef }
-                            editModalRef={ editModalRef }
-                        />
+                    if (item.isDone == false) {
+                        return (
+                            <TaskItem
+                                index={ index }
+                                TaskData={ props.TaskData }
+                                setTaskData={ props.setTaskData }
+                                item={ item }
+                                foregroundColor={ props.foregroundColor }
+                                backgroundColor={ props.backgroundColor }
+                                parentFlatList={ this }
+                                addModalRef={ addModalRef }
+                                editModalRef={ editModalRef }
+                            />
                     );
+                    } else {
+                        return (<></>);
+                    }
                 } }
             />
 
@@ -84,7 +88,7 @@ const styles = StyleSheet.create( {
         alignItems: 'center',
         width: '100%',
         justifyContent: 'center',
-        paddingTop: 39
+        paddingTop: 59
     },
 
     flatButton: {
@@ -99,6 +103,6 @@ const styles = StyleSheet.create( {
         marginBottom: 30,
         alignItems: 'center',
         justifyContent: 'center',
-        padding: 1,
+        padding: 1
     }
 } )

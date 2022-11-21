@@ -7,20 +7,23 @@ import { CustomButton } from './CustomButton'
 
 class TaskItem extends Component {
     state = {
-        isCompleted: false,
+        isCompleted: this.props.TaskData[ this.props.index ].isDone,
         isOpened: false,
         numberOfRefresh: 0
     };
 
     toggleRadioButton () {
-        this.setState( { isCompleted: !this.state.isCompleted } );
+        this.props.TaskData[ this.props.index ].isDone = !this.props.TaskData[ this.props.index ].isDone
 
-        if ( !this.state.isCompleted ) {
+        if ( this.props.TaskData[ this.props.index ].isDone ) {
             alert( 'Task added to completed list' );
+            console.log(this.props.TaskData[ this.props.index ].isDone);
         }
         else {
             alert( 'Task removed from completed list' );
+            console.log(this.props.TaskData[ this.props.index ].isDone);
         }
+        this.setState( { isCompleted: this.state.isCompleted } );
     }
 
     edit ( props ) {
@@ -86,7 +89,7 @@ class TaskItem extends Component {
                             ...styles.checkbox, 
                             borderColor: this.props.backgroundColor
                         } }
-                        value={ this.state.isCompleted }
+                        value={ this.props.TaskData[ this.props.index ].isDone }
                         onValueChange={
                             ( newValue ) => this.toggleRadioButton( newValue, title )
                         }

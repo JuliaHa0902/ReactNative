@@ -7,7 +7,7 @@ const TaskData = [
     {
         "title": "Another one",
         "description": "And another demo description",
-        "isDone": "true",
+        "isDone": "false",
     }
 ];
 
