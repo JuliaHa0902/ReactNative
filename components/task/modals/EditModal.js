@@ -85,9 +85,11 @@ class EditModal extends Component {
                         </Text>
 
                         <View>
+
                             <Text style={ { color: backgroundColor } }>
                                 { title }
                             </Text>
+
 
                             <TextInput
                                 style={ {
@@ -154,3 +156,4 @@ class EditModal extends Component {
 }
 
 export default EditModal
+
