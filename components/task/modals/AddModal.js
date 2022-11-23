@@ -40,6 +40,8 @@ class AddModal extends Component {
 
         const newData = [ ...this.props.TaskData, newTask ]
 
+        console.log( newData )
+
         this.props.setTaskData( newData )
         this.setState( { 
             isOpen: false,
