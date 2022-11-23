@@ -1,26 +1,36 @@
 import React, { Component } from "react";
-import { Alert, Text, StyleSheet, View, TouchableOpacity } from "react-native";
+import { Alert, Text, View, TouchableOpacity } from "react-native";
 import Checkbox from 'expo-checkbox';
+
+// constant data for the item
+import { AppData } from '../data/data'
 
 // components
 import { CustomButton } from './CustomButton'
 
+// styles
+import { ItemStyles } from './styles'
+
 class TaskItem extends Component {
     state = {
-        isCompleted: false,
         isOpened: false,
-        numberOfRefresh: 0
     };
 
-    toggleRadioButton () {
-        this.setState( { isCompleted: !this.state.isCompleted } );
+    toggleRadioButton ( newVal, title ) {
+        const { index, TaskData, setTaskData } = this.props
 
-        if ( !this.state.isCompleted ) {
-            alert( 'Task added to completed list' );
+        const newTaskData = [ ...TaskData ]
+        newTaskData[ index ].isDone = newVal
+
+        const { label, radioButton } = AppData.alert.task
+        if ( newVal ) {
+            Alert.alert( `${ label } "${ title }"`, radioButton.added )
         }
         else {
-            alert( 'Task removed from completed list' );
+            Alert.alert( `${ label } "${ title }"`,  radioButton.removed )
         }
+
+        setTaskData( newTaskData )
     }
 
     edit ( props ) {
@@ -34,8 +44,11 @@ class TaskItem extends Component {
     }
 
     delete ( props, title ) {
-        const yes = {
-            text: "Yes",
+        const { deleteButton, label } = AppData.alert.task
+        const { yes, no } = deleteButton.cancel
+
+        const yesBtn = {
+            text: yes,
             onPress: () => {
                 const oldData = [ ...this.props.TaskData ]
                 const newData = []
@@ -50,16 +63,10 @@ class TaskItem extends Component {
             }
         }
 
-        const no = {
-            text: "No",
-            style: 'cancel',
-            onPress: () => console.warn( "Cancel" )
-        }
-
         Alert.alert(
-            'Alert',
-            'Are you sure you want to delete this task? "' + title + '"',
-            [ yes, no ],
+            `${ label } ${ title }`,
+            deleteButton.dialog,
+            [ yesBtn, { text: no } ],
             { cancelable: true }
         );
     }
@@ -67,6 +74,7 @@ class TaskItem extends Component {
     render () {
         // deconstruct
         const { title, description } = this.props.item
+        const { TaskData, index, foregroundColor, backgroundColor } = this.props
 
         return (
             <TouchableOpacity
@@ -78,23 +86,27 @@ class TaskItem extends Component {
                 } }
             >
                 <View style={ {
-                    ...styles.taskItem,
-                    backgroundColor: this.props.foregroundColor
+                    ...ItemStyles.taskItem,
+                    backgroundColor: foregroundColor
                 } }>
                     <Checkbox
-                        style={ { 
-                            ...styles.checkbox, 
-                            borderColor: this.props.backgroundColor
+                        style={ {
+                            ...ItemStyles.checkbox,
+                            borderColor: backgroundColor
                         } }
-                        value={ this.state.isCompleted }
+                        value={ TaskData[ index ].isDone } // change this to what the data says
                         onValueChange={
                             ( newValue ) => this.toggleRadioButton( newValue, title )
                         }
                     />
 
                     {/* task title */ }
-                    <View style={ styles.textCenter }>
-                        <Text style={ { color: this.props.backgroundColor } }>
+                    <View style={ ItemStyles.textCenter }>
+                        <Text style={ {
+                            color: backgroundColor,
+                            fontWeight: 'bold',
+                            fontSize: 16
+                        } }>
                             { title }
                         </Text>
                     </View>
@@ -103,27 +115,52 @@ class TaskItem extends Component {
                     { // if task is clicked (open), then show: delete/edit
                         this.state.isOpened && (
                             <View>
-                                <View style={ styles.textCenter }>
-                                    <Text
-                                        numberOfLines={ 3 }
-                                        style={ { color: this.props.backgroundColor } }
-                                    >
-                                        { description }
-                                    </Text>
-                                </View>
+                                { // if there's no description, then we shouldn't render it
+                                description === '' ? 
+                                    null :
+                                    <View style={ { 
+                                        ...ItemStyles.textCenter,
+                                        paddingTop: 8
+                                    } }>
+                                        <Text
+                                            numberOfLines={ 3 }
+                                            style={ {
+                                                color: backgroundColor,
+                                                fontSize: 12,
+                                                lineHeight: 16
+                                            } }
+                                        >
+                                            { description }
+                                        </Text>
+                                    </View>
+                                }
 
-                                <View style={ styles.buttonContainer }>
+                                <View style={ ItemStyles.buttonContainer }>
                                     <CustomButton
-                                        color="#000"
-                                        name="Delete"
-                                        style={ styles.deleteBtn }
+                                        name={ AppData.taskButtons.delete }
+                                        opacity={ this.props.mode ? 0.5 : 0.7 }
+                                        style={ { 
+                                            ...ItemStyles.button,
+                                            backgroundColor: backgroundColor,
+                                            borderColor: backgroundColor
+                                        } }
+                                        textStyle={ {
+                                            color: foregroundColor
+                                        } }
                                         onPress={ () => this.delete( this.props, title ) }
                                     />
 
                                     <CustomButton
-                                        color="#FFF"
-                                        name="Edit"
-                                        style={ styles.editBtn }
+                                        name={ AppData.taskButtons.edit }
+                                        opacity={ this.props.mode ? 0.7 : 0.5 }
+                                        style={ { 
+                                            ...ItemStyles.button,
+                                            backgroundColor: foregroundColor,
+                                            borderColor: backgroundColor
+                                        } }
+                                        textStyle={ {
+                                            color: backgroundColor
+                                        } }
                                         onPress={ () => this.edit( this.props ) }
                                     />
                                 </View>
@@ -137,40 +174,3 @@ class TaskItem extends Component {
 }
 
 export default TaskItem
-
-const styles = StyleSheet.create( {
-    taskItem: {
-        directiona: 'row',
-        margin: 10,
-        padding: 20,
-        borderRadius: 10
-    },
-
-    buttonContainer: {
-        flexDirection: 'row',
-        justifyContent: 'center',
-        marginTop: 10
-    },
-
-    textCenter: {
-        alignItems: 'center',
-    },
-
-    checkbox: {
-        position: 'absolute',
-        margin: 10,
-        borderRadius: 10,
-    },
-
-    deleteBtn: {
-        alignItems: 'center',
-        color: '#000',
-        backgroundColor: '#FFF',
-        borderColor: '#333',
-        borderWidth: 1,
-    },
-
-    editBtn: {
-        marginLeft: 20,
-    },
-} )

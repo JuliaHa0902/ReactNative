@@ -1,28 +1,21 @@
 import React, { Component } from 'react';
-import {
-    StyleSheet,
-    Text,
-    View,
-    TextInput,
-    Modal
-} from 'react-native';
+import { Text, View, TextInput, Modal } from 'react-native';
 
 // components
 import { CustomButton } from '../CustomButton';
 
+// styles
+import TaskStyles from '../styles';
+
+// data for the constant values that won't change
+import { AppData } from '../../data/data'
+
 class EditModal extends Component {
-    constructor( props ) {
-        super( props );
-        this.state = {
-            newTitle: "",
-            newDescription: "",
-            isOpen: false,
-        };
-
-        this.save = this.save.bind( this );
-        this.cancel = this.cancel.bind( this );
+    state = {
+        newTitle: "",
+        newDescription: "",
+        isOpen: false
     }
-
 
     showEditModal = ( index, item, itemObject ) => {
         this.setState( {
@@ -34,17 +27,11 @@ class EditModal extends Component {
         } );
     }
 
-    save () {
+    save = () => {
         if ( this.state.newTitle.length == 0 ) {
-            alert( "You must enter a task name" );
+            alert( AppData.alert.task.noTitle );
             return;
         }
-
-        const newTask = {
-            title: this.state.newTitle,
-            description: this.state.newDescription,
-            isDone: "false"
-        };
 
         var index = this.state.index;
 
@@ -55,40 +42,61 @@ class EditModal extends Component {
 
         this.props.setTaskData( data )
 
-        this.setState( { isOpen: false } );
+        this.setState( {
+            newTitle: "",
+            newDescription: "",
+            isOpen: false
+        } );
     }
 
-
-    cancel () {
+    cancel = () => {
         this.setState( { isOpen: false } );
-
     }
-
-
 
     render () {
+        const styles = TaskStyles.modal
+        const { foregroundColor, backgroundColor } = this.props
+
+        // deconstruct AppData from the add modal, since it's the same
+        const { title, descTitle, button } = AppData.modal.add
+
         return (
             <Modal
                 ref={ "myModal" }
                 style={ styles.modal }
                 visible={ this.state.isOpen }
-                position='center'
                 transparent={ true }
                 onClosed={ () => {
                     alert( "Modal closed" );
                 } }
             >
                 <View style={ styles.centerModal }>
-                    <View style={ styles.modalContent }>
+                    <View style={ {
+                        ...styles.modalContent,
+                        backgroundColor: foregroundColor,
+                        shadowColor: backgroundColor
+                    } }>
+                        <Text style={ {
+                            color: backgroundColor,
+                            fontSize: 18,
+                            fontWeight: 'bold'
+                        } }>
+                            { AppData.alert.task.label }
+                        </Text>
+
                         <View>
-                            <View  style={styles.header}>
-                                <Text  style={styles.headerLabel}>Edit Task</Text>
-                            </View>
-                            <Text>Title</Text>
+
+                            <Text style={ { color: backgroundColor } }>
+                                { title }
+                            </Text>
+
 
                             <TextInput
-                                style={ styles.textInput }
-                                placeholder="Enter task"
+                                style={ {
+                                    ...styles.textInput,
+                                    borderColor: backgroundColor,
+                                    color: backgroundColor
+                                } }
                                 onChangeText={
                                     text => this.setState( { newTitle: text } )
                                 }
@@ -98,11 +106,17 @@ class EditModal extends Component {
                         </View>
 
                         <View>
-                            <Text>Description</Text>
+                            <Text style={ { color: backgroundColor } }>
+                                { descTitle }
+                            </Text>
 
                             <TextInput
-                                style={ styles.textInput }
-                                placeholder="Enter description"
+                                style={ {
+                                    ...styles.textInput,
+                                    ...styles.textInput_description,
+                                    borderColor: backgroundColor,
+                                    color: backgroundColor
+                                } }
                                 onChangeText={
                                     text => this.setState( { newDescription: text } )
                                 }
@@ -113,17 +127,25 @@ class EditModal extends Component {
 
                         <View style={ styles.bottonContainer }>
                             <CustomButton
-                                color="#000"
-                                name="Cancel"
+                                name={ button.cancel }
+                                style={ {
+                                    ...styles.button,
+                                    borderColor: backgroundColor,
+                                    backgroundColor: backgroundColor
+                                } }
+                                textStyle={ { color: foregroundColor } }
                                 onPress={ this.cancel }
-                                style={ styles.cancelBtn }
                             />
 
                             <CustomButton
-                                name="Save"
-                                color="#FFF"
+                                name={ button.save }
+                                style={ {
+                                    ...styles.button,
+                                    borderColor: backgroundColor,
+                                    backgroundColor: foregroundColor
+                                } }
+                                textStyle={ { color: backgroundColor } }
                                 onPress={ this.save }
-                                style={ styles.saveBtn }
                             />
                         </View>
                     </View>
@@ -135,63 +157,3 @@ class EditModal extends Component {
 
 export default EditModal
 
-const styles = StyleSheet.create( {
-    header: {
-        alignItems: 'center',
-        marginRight: 60,
-        marginBottom: 10,
-    },
-
-    headerLabel:{
-        fontSize: 18,
-        fontWeight: 'semibold',
-    },
-    
-    modalContent: {
-        width: 340,
-        height: 380,
-        backgroundColor: '#D9D9D9',
-        paddingLeft: 40,
-        borderRadius: 20,
-        justifyContent: 'space-evenly'
-    },
-
-    centerModal: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-
-    bottonContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-    },
-
-    label: {
-        fontSize: 20,
-        fontWeight: 'normal',
-    },
-
-    textInput: {
-        borderWidth: 2,
-        width: '80%',
-        borderRadius: 4,
-        padding: 8,
-        marginTop: 8,
-    },
-
-    textInput_description: {
-        height: 100,
-        textAlignVertical: 'top',
-    },
-
-    saveBtn: {
-        marginLeft: 20,
-    },
-
-    cancelBtn: {
-        backgroundColor: '#FFF',
-        borderWidth: 1,
-        borderColor: '#4B4B4B'
-    },
-} )
