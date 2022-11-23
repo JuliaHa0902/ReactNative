@@ -41,7 +41,11 @@ class AddModal extends Component {
         const newData = [ ...this.props.TaskData, newTask ]
 
         this.props.setTaskData( newData )
-        this.setState( { isOpen: false } );
+        this.setState( { 
+            isOpen: false,
+            newTitle: "",
+            newDescription: "",
+         } );
     }
 
     // reset state of the new task
