@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Text, View, TextInput, Modal } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // components
 import { CustomButton } from '../CustomButton';
@@ -23,6 +24,13 @@ class AddModal extends Component {
         } );
     }
 
+    saveLocal = async ( newData ) => {
+        await AsyncStorage.setItem(
+            '@tasks',
+            JSON.stringify( newData )
+        )
+    }
+
     save = () => {
         const { noTitle } = AppData.alert.task
 
@@ -40,9 +48,9 @@ class AddModal extends Component {
 
         const newData = [ ...this.props.TaskData, newTask ]
 
-        console.log( newData )
+        this.saveLocal( newData );
 
-        this.props.setTaskData( newData )
+        this.props.setTaskData( newData );
         this.setState( { 
             isOpen: false,
             newTitle: "",

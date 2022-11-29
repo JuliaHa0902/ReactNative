@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { StatusBar } from "react-native"
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // components
 import OpenDrawer from './components/drawer/open'
@@ -11,7 +12,7 @@ import { TaskData } from "./components/data/data";
 const animationSpeed = 500 // ms
 
 const App = () => {
-    const [ data, setData ] = useState( TaskData )
+    const [ data, setData ] = useState( null )
     const [ show, setShow ] = useState( false )
     const [ active, setActive ] = useState( 'TODO' )
 
@@ -21,6 +22,29 @@ const App = () => {
     const [ foregroundColor, setForegroundColor ] = useState( '#333' );
 
     StatusBar.setBarStyle( 'light-content' )
+
+    // this will only be called once when the app loads:
+    useEffect( () => {
+        const fetchData = async () => {
+            let tasks = await AsyncStorage.getItem( '@tasks' );
+
+            // if there's no tasks in storage, then pull from local examples
+            if ( !tasks || tasks === undefined ) {
+                await AsyncStorage.setItem(
+                    '@tasks',
+                    JSON.stringify( TaskData )
+                )
+
+                setData( TaskData );
+            }
+            // need to parse the string into a useable JSON object
+            else {
+                setData( JSON.parse( tasks ) );
+            }
+        }
+
+        fetchData();
+    }, [] )
 
     // drawer open
     if ( show ) {
