@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Text, View, TextInput, Modal } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // components
 import { CustomButton } from '../CustomButton';
@@ -27,6 +28,13 @@ class EditModal extends Component {
         } );
     }
 
+    saveLocal = async ( data ) => {
+        await AsyncStorage.setItem(
+            '@tasks',
+            JSON.stringify( data )
+        )
+    }
+
     save = () => {
         if ( this.state.newTitle.length == 0 ) {
             alert( AppData.alert.task.noTitle );
@@ -39,6 +47,8 @@ class EditModal extends Component {
 
         data[ index ].title = this.state.newTitle;
         data[ index ].description = this.state.newDescription;
+
+        this.saveLocal( data );
 
         this.props.setTaskData( data )
 
@@ -89,7 +99,6 @@ class EditModal extends Component {
                             <Text style={ { color: backgroundColor } }>
                                 { title }
                             </Text>
-
 
                             <TextInput
                                 style={ {

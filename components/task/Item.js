@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Alert, Text, View, TouchableOpacity } from "react-native";
 import Checkbox from 'expo-checkbox';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // constant data for the item
 import { AppData } from '../data/data'
@@ -30,7 +31,16 @@ class TaskItem extends Component {
             Alert.alert( `${ label } "${ title }"`,  radioButton.removed )
         }
 
+        this.saveLocal( newTaskData );
+
         setTaskData( newTaskData )
+    }
+
+    saveLocal = async ( newTaskData ) => {
+        await AsyncStorage.setItem(
+            '@tasks',
+            JSON.stringify( newTaskData )
+        )
     }
 
     edit ( props ) {
@@ -49,7 +59,7 @@ class TaskItem extends Component {
 
         const yesBtn = {
             text: yes,
-            onPress: () => {
+            onPress: async () => {
                 const oldData = [ ...this.props.TaskData ]
                 const newData = []
 
@@ -58,6 +68,11 @@ class TaskItem extends Component {
                         newData.push( oldData[ x ] )
                     }
                 }
+
+                await AsyncStorage.setItem(
+                    '@tasks',
+                    JSON.stringify( newData )
+                )
 
                 this.props.setTaskData( newData )
             }

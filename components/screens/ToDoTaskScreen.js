@@ -19,7 +19,7 @@ const ToDoTaskScreen = props => {
     const addTask = () => {        
         addModalRef.current.showAddModal( props.TaskData )
     }
-
+    
     return (
         <View style={ styles.container }>
             {/* list of tasks.. */ }
@@ -27,20 +27,22 @@ const ToDoTaskScreen = props => {
                 data={ props.TaskData }
                 style={ { width: '100%' } }
                 renderItem={ ( { item, index } ) => {
-                    return (
-                        <TaskItem
-                            index={ index }
-                            TaskData={ props.TaskData }
-                            setTaskData={ props.setTaskData }
-                            item={ item }
-                            mode={ props.mode }
-                            foregroundColor={ props.foregroundColor }
-                            backgroundColor={ props.backgroundColor }
-                            parentFlatList={ this }
-                            addModalRef={ addModalRef }
-                            editModalRef={ editModalRef }
-                        />
-                    );
+                    if( !item.isDone ) {
+                        return (
+                            <TaskItem
+                                index={ index }
+                                TaskData={ props.TaskData }
+                                setTaskData={ props.setTaskData }
+                                item={ item }
+                                mode={ props.mode }
+                                foregroundColor={ props.foregroundColor }
+                                backgroundColor={ props.backgroundColor }
+                                parentFlatList={ this }
+                                addModalRef={ addModalRef }
+                                editModalRef={ editModalRef }
+                            />
+                        );
+                    }
                 } }
             />
 

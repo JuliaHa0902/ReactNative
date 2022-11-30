@@ -1,57 +1,36 @@
 import React from "react";
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import Ionicons from '@expo/vector-icons/Ionicons';
+import { FlatList, View } from 'react-native';
+
+import TaskItem from '../task/Item'
 
 const CompletedTaskScreen = props => {
-    const { show, setShow, TaskData, setTaskData, foregroundColor } = props
-
-    const completedTasks = [ ...TaskData ].filter( task => task.isDone )
-
-    // here is the completed tasks filtered from state
-    console.log( completedTasks )
-
-    let titles = ''
-    completedTasks.forEach( ( task, index ) => {
-        if( index + 1 !== completedTasks.length ) {
-            titles += task.title + ', '
-        }
-        else {
-            titles += task.title
-        }
-    } )
-
-    console.warn( 'completed: ' + titles )
-
-    // use setTaskData(), if you're adding/deleteing tasks from the completed screen
+    const { mode, TaskData, setTaskData, foregroundColor, backgroundColor } = props
 
     return (
         <View>
-            <TouchableOpacity
-                style={ styles.menu }
-                onPress={ () => setShow( !show ) }
-            >
-                <Ionicons name="menu" size={ 36 } style={ { color: foregroundColor } } />
-            </TouchableOpacity>
-
-            <View style={ styles.container }>
-                <Text style={ { color: foregroundColor } }>Completed Task screen!</Text>
-            </View>
+            {/* list of tasks.. */ }
+            <FlatList
+                data={ TaskData }
+                style={ { width: '100%', paddingTop: 40 } }
+                renderItem={ ( { item, index } ) => {
+                    if( item.isDone ) {
+                        return (
+                            <TaskItem
+                                index={ index }
+                                TaskData={ TaskData }
+                                setTaskData={ setTaskData }
+                                item={ item }
+                                mode={ mode }
+                                foregroundColor={ foregroundColor }
+                                backgroundColor={ backgroundColor }
+                                parentFlatList={ this }
+                            />
+                        );
+                    }
+                } }
+            />
         </View>
     );
 }
-
-const styles = StyleSheet.create( {
-    container: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        height: '100%'
-    },
-    menu: {
-        position: 'absolute',
-        alignSelf: 'flex-start',
-        zIndex: 10,
-        elevation: 10
-    }
-} );
 
 export default CompletedTaskScreen
